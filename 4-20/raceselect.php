@@ -10,7 +10,7 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
-    $conn = mysqli_connect("db.luddy.indiana.edu","i308s26_griffian","", "i308s26_griffian");
+    $conn = mysqli_connect("db.luddy.indiana.edu","i308s26_griffian","arose3749curst", "i308s26_griffian");
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
@@ -27,6 +27,8 @@
         </select>
         <input type="submit" value="Submit">
     </form>
+
+    <?php mysqli_close($conn); ?>
 </body>
 </html>
         

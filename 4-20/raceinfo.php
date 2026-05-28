@@ -11,12 +11,25 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
-    $conn = mysqli_connect("db.luddy.indiana.edu","i308s26_griffian","", "i308s26_griffian");
+    $conn = mysqli_connect("db.luddy.indiana.edu","i308s26_griffian","arose3749curst", "i308s26_griffian");
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $raceYear = $_POST['race'];
+    function clean_up($data) {
+    //remove unnecessary chars like tab/newline/space
+    $data = trim($data);
+    //remove backslashes
+    $data = stripslashes($data);
+    //convert problematic chars into entity representation
+    //prevents injection in the PHP
+    $data = htmlspecialchars($data);
+
+
+    return $data;
+    }
+
+    $raceYear = (int) clean_up($_POST['race']);
 
     $getRaceInfo = "SELECT te.tname, re.ev_name, re.finish, re.fin_time FROM B_results AS re JOIN B_race AS ra ON re.race_id = ra.id JOIN B_team AS te ON re.team_id = te.id WHERE ra.race_year = $raceYear ORDER BY re.finish ASC";
     $result = mysqli_query($conn, $getRaceInfo);
@@ -39,6 +52,7 @@
             </tr>
         <?php } ?>
 
+        <?php mysqli_close($conn); ?>
     
 </body>
 </html>
